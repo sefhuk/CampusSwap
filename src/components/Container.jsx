@@ -1,13 +1,9 @@
 import React from 'react';
 
-const Container = (props) => {
+const Container = ({ col, etc, children }) => {
   return (
-    <div
-      className={`flex ${props.col && 'flex-col items-center'} h-full ${
-        props.etc
-      }`}
-    >
-      {props.children}
+    <div className={`flex ${col && 'flex-col items-center'} h-full ${etc}`}>
+      {children}
     </div>
   );
 };
