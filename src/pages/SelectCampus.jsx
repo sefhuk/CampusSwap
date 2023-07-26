@@ -14,6 +14,7 @@ const SelectCampus = () => {
             <Link
               to={`/u/${convertToHex(e)}`}
               className='text-xl border-b-[1px] border-gray-500 p-1'
+              key={convertToHex(e)}
             >
               {e}
             </Link>
