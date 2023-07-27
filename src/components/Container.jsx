@@ -1,11 +1,7 @@
-import React from 'react';
-
 const Container = ({ col, etc, children }) => {
-  return (
-    <div className={`flex ${col && 'flex-col items-center'} h-full ${etc}`}>
-      {children}
-    </div>
-  );
+  let flexCol = col && 'flex-col items-center';
+
+  return <div className={`flex h-full ${flexCol} ${etc}`}>{children}</div>;
 };
 
 export default Container;
