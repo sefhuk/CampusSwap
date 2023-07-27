@@ -21,13 +21,13 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { index: true, element: <Home /> },
-      {
-        path: 'sell',
-        element: <UploadItem />,
-      },
       { path: 'chat', element: <Chat /> },
       { path: 'my', element: <UserInfo /> },
     ],
+  },
+  {
+    path: '/u/:campusId/sell',
+    element: <UploadItem />,
   },
 ]);
 
