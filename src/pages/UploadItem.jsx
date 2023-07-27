@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Container from '../components/Container';
 import Input from '../components/Input';
 import { FaImage } from 'react-icons/fa';
@@ -8,6 +9,8 @@ const UploadItem = () => {
   const [itemName, setItemName] = useState('');
   const [itemPrice, setItemPrice] = useState();
   const [itemDesc, setItemDesc] = useState('');
+
+  const navigate = useNavigate();
 
   const handleNameChanhge = (e) => {
     setItemName(e.target.value);
@@ -29,7 +32,9 @@ const UploadItem = () => {
           'justify-between items-center border-b-[1px] border-gray-500 font-bold h-[10%] px-4'
         }
       >
-        <button className='text-xl'>←</button>
+        <button className='text-xl' onClick={() => navigate(-1)}>
+          ←
+        </button>
         <p className='text-xl'>물건 스왑 하기</p>
         <button className=''>등록</button>
       </Wrap>
