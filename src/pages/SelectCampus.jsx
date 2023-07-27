@@ -9,7 +9,7 @@ const SelectCampus = () => {
     <Container col={true}>
       <h1 className='text-3xl font-bold mt-[30%]'>대학교를 선택해주세요!</h1>
       <div className='flex flex-col w-[70%] h-[50%] mt-10'>
-        <ul className='flex flex-col h-1000%] overflow-y-scroll text-xl font-bold'>
+        <ul className='flex flex-col h-[100%] overflow-y-scroll text-xl font-bold'>
           {campuses.map((e) => (
             <Link
               to={`/u/${convertToHex(e)}`}
