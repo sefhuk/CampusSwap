@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
-  signInWithPopup,
   signInWithRedirect,
   GoogleAuthProvider,
   getRedirectResult,
@@ -17,17 +16,18 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_API_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-
-const googleAuthProvider = new GoogleAuthProvider(app);
+export const app = initializeApp(firebaseConfig);
 
 const auth = getAuth();
 
-export const googleSignIn = async (isMobile) => {
-  if (isMobile) {
-    await signInWithRedirect(auth, googleAuthProvider);
-    return getRedirectResult(auth).then((res) => res.user);
-  } else {
-    return signInWithPopup(auth, googleAuthProvider).then((res) => res.user);
-  }
+const googleAuthProvider = new GoogleAuthProvider(app);
+
+export const googleSignIn = async () => {
+  return signInWithRedirect(auth, googleAuthProvider);
+};
+
+export const getSiginInResult = async () => {
+  return getRedirectResult(auth).then((res) => {
+    return res.user;
+  });
 };
