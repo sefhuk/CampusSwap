@@ -4,5 +4,7 @@ export { default as Home } from './Home';
 export { default as UserInfo } from './UserInfo';
 export { default as UploadItem } from './UploadItem';
 export { default as Root } from './Root';
+export { default as LoginLoading } from './LoginLoading';
 export { default as SignIn } from './Auth/SignIn';
 export { default as SignUp } from './Auth/SignUp';
+export { default as SignInForm } from './Auth//SignInForm';
