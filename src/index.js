@@ -13,8 +13,11 @@ import {
   SignUp,
   Root,
 } from './pages';
-import store from './redux/store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './redux/configureStore';
+import LoginLoading from './pages/LoginLoading';
+import SignInForm from './pages/Auth/SignInForm';
 
 const router = createBrowserRouter([
   {
@@ -41,13 +44,25 @@ const router = createBrowserRouter([
     path: '/u/:campusId/sell',
     element: <UploadItem />,
   },
-  { path: '/signin', element: <SignIn /> },
+  {
+    path: '/signin',
+    element: <SignIn />,
+    children: [
+      { index: true, element: <SignInForm /> },
+      {
+        path: 'loading',
+        element: <LoginLoading />,
+      },
+    ],
+  },
   { path: '/signup', element: <SignUp /> },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <PersistGate persistor={persistor} loading={null}>
+      <RouterProvider router={router} />
+    </PersistGate>
   </Provider>
 );
