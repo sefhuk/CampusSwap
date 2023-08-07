@@ -5,12 +5,15 @@ import Input from '../components/Input';
 import { FaImage } from 'react-icons/fa';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import Wrap from '../components/Wrap';
+import axios from 'axios';
 
 const UploadItem = () => {
   const [itemName, setItemName] = useState('');
   const [itemPrice, setItemPrice] = useState();
   const [itemDesc, setItemDesc] = useState('');
-  const [images, setImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
+  const [postImages, setPostImages] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,30 +22,46 @@ const UploadItem = () => {
   };
 
   const handlePriceChange = (e) => {
-    setItemPrice(e.target.value);
+    if (isNaN(Number(e.target.value.replaceAll(',', '')))) return;
+
+    let value = Number(e.target.value.replaceAll(',', ''));
+    value = value.toLocaleString('ko-KR').toString();
+    setItemPrice(value);
   };
 
   const handleDescChange = (e) => {
     setItemDesc(e.target.value);
   };
 
-  const handleRemoveImage = (idx) => {
-    const list = [...images];
-    list.splice(idx, 1);
-    setImages(list);
+  const handleCheckChange = (e) => {
+    setIsChecked(e.target.checked);
   };
 
-  const handlePreviewImages = (e) => {
-    let curLength = images.length;
-    const imageList = [...images];
+  const handleRemoveImage = (idx) => {
+    let previewList = [...previewImages];
+    let postList = [...postImages];
+    URL.revokeObjectURL(previewList[idx]);
+    previewList.splice(idx, 1);
+    postList.splice(idx, 1);
+
+    setPreviewImages(previewList);
+    setPostImages(postList);
+  };
+
+  const handleImageChange = (e) => {
+    let curLength = postImages.length;
+    const postList = [...postImages];
+    const previewList = [...previewImages];
 
     for (let i = 0; i < e.target.files.length; i++) {
       if (curLength === 10) break;
-      imageList.push(URL.createObjectURL(e.target.files[i]));
+      postList.push(e.target.files[i]);
+      previewList.push(URL.createObjectURL(e.target.files[i]));
       curLength++;
     }
 
-    setImages(imageList);
+    setPostImages(postList);
+    setPreviewImages(previewList);
   };
 
   return (
@@ -56,7 +75,25 @@ const UploadItem = () => {
           ←
         </button>
         <p className='text-xl'>물건 스왑 하기</p>
-        <button className=''>등록</button>
+        <button
+          onClick={() => {
+            const imgData = new FormData();
+            imgData.append('image', postImages[0]);
+            axios({
+              method: 'post',
+              url: `http://${process.env.REACT_APP_HTTP_HOST}:${process.env.REACT_APP_HTTP_PORT}/upload`,
+              headers: {},
+              data: imgData,
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }).then((e) => {
+              console.log(e.data);
+            });
+          }}
+        >
+          등록
+        </button>
       </Wrap>
       <Wrap
         etc={
@@ -65,23 +102,24 @@ const UploadItem = () => {
       >
         <ul className='flex items-center h-full'>
           <li className='border-[1px] border-b-[1px] border-gray-500 rounded-[10px] w-[70px] py-2'>
-            <label for='input_img' className='flex flex-col items-center'>
+            <label htmlFor='input_img' className='flex flex-col items-center'>
               <FaImage />
               <p className='mt-2 text-base'>사진 추가</p>
             </label>
             <Input
               type={'file'}
               id={'input_img'}
+              name={'image'}
               etc={'hidden'}
-              onChange={handlePreviewImages}
+              onChange={handleImageChange}
               accept={'image/*'}
               multiple
             />
           </li>
-          {images.map((e, idx) => {
+          {previewImages.map((e, idx) => {
             return (
               <li
-                className={`relative flex justify-center items-center  rounded-[10px] w-[70px] h-[95%] ml-6 overflow-hidden`}
+                className={`relative flex justify-center items-center rounded-[10px] w-[70px] h-[70px] ml-6 overflow-hidden`}
                 key={e}
               >
                 <img
@@ -130,7 +168,12 @@ const UploadItem = () => {
           onChange={handlePriceChange}
         />
         <label className='flex items-center text-base'>
-          <Input type='checkbox' value={'share'} etc={'mr-2'} />
+          <Input
+            type='checkbox'
+            value={isChecked}
+            etc={'mr-2'}
+            onChange={handleCheckChange}
+          />
           기부
         </label>
       </Wrap>

@@ -4,7 +4,6 @@ import Input from '../../components/Input';
 import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { googleSignIn } from '../../firebase';
-import { useSelector } from 'react-redux';
 
 const SignInForm = () => {
   const [id, setId] = useState('');
@@ -12,15 +11,12 @@ const SignInForm = () => {
 
   const navigate = useNavigate();
 
-  const param = useSelector((state) => state.url.param);
-
   const handleIdChange = (e) => setId(e.target.value);
 
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   const handleLogin = () => {
     navigate('loading');
-    // navigate(`/u/${param}`);
     googleSignIn();
   };
 

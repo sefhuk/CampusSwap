@@ -1,8 +1,6 @@
 import { Outlet, useParams } from 'react-router-dom';
-
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
-
 import { convertFromHex } from '../utils/convert';
 
 const Root = () => {
