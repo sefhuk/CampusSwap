@@ -21,7 +21,7 @@ const LoginLoading = () => {
             email: user.email,
           })
         );
-        navigate(`/u/${param}`);
+        navigate(`/u/${param}`, { replace: true });
       })
       .catch(() => {
         return;
