@@ -8,9 +8,13 @@ const BottomNav = () => {
 
   return (
     <nav className='flex justify-evenly items-center w-full h-[10%] '>
-      <NavIcon to='' icon={() => <FaHome />} title={'홈'} />
-      <NavIcon to='chat' icon={() => <FaMessage />} title={'채팅'} />
-      <NavIcon to='sell' icon={() => <FaPlusCircle />} title={'판매'} />
+      <NavIcon to={''} icon={() => <FaHome />} title={'홈'} />
+      <NavIcon to={'chat'} icon={() => <FaMessage />} title={'채팅'} />
+      <NavIcon
+        to={isLoggedIn ? 'sell' : '/signin'}
+        icon={() => <FaPlusCircle />}
+        title={'판매'}
+      />
       <NavIcon
         to={isLoggedIn ? 'my' : '/signin'}
         icon={() => <FaUserCog />}
