@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   getRedirectResult,
 } from 'firebase/auth';
+import { getDatabase, ref, set } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_APT_KEY,
@@ -21,6 +22,7 @@ export const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
 const googleAuthProvider = new GoogleAuthProvider(app);
+const database = getDatabase(app);
 
 export const googleSignIn = async () => {
   return signInWithRedirect(auth, googleAuthProvider);
@@ -30,4 +32,8 @@ export const getSiginInResult = async () => {
   return getRedirectResult(auth).then((res) => {
     return res.user;
   });
+};
+
+export const writeData = (univ) => {
+  set(ref(database, 'universities/'), { name: univ });
 };

@@ -19,6 +19,12 @@ import { store, persistor } from './redux/configureStore';
 import LoginLoading from './pages/LoginLoading';
 import SignInForm from './pages/Auth/SignInForm';
 
+import eruda from 'eruda';
+
+if (process.env.NODE_ENV === 'development') {
+  eruda.init();
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
