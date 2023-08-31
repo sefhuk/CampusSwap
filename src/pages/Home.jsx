@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSiginInResult, writeData } from '../firebase';
+import { getSiginInResult } from '../firebase';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slice/userSlice';
 import { setParam } from '../redux/slice/urlSlice';
-import { campuses } from '../assets/data/campuses';
 
 const Home = () => {
   const { campusId } = useParams();
@@ -31,12 +30,7 @@ const Home = () => {
       });
   }, []);
 
-  return (
-    <div>
-      Home<br></br>
-      <button onClick={() => {}}>start</button>
-    </div>
-  );
+  return <div>Home</div>;
 };
 
 export default Home;
